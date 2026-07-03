@@ -1,0 +1,25 @@
+version: "3"
+services:
+  nextcloud:
+    image: nextcloud:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - nextcloud_data:/var/www/html
+    restart: unless-stopped
+
+  collabora:
+    image: collabora/code:latest
+    ports:
+      - "9980:9980"
+    environment:
+      - domain=172\.20\.10\.5
+      - username=admin
+      - password=adminpass
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=false
+    restart: unless-stopped
+    cap_add:
+      - MKNOD
+
+volumes:
+  nextcloud_data:
